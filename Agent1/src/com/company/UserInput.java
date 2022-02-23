@@ -25,13 +25,13 @@ public class UserInput {
         } while (ski.length!=16 || ski[0]!='E');
 
         int x = 14;
-        ArrayList<Character> n = new ArrayList<Character>();
+        StringBuffer result = new StringBuffer();
         while (x > 7) {
-            n.add(ski[x]);
+            result.append(ski[x]);
             x++;
-            n.add(ski[x]);
+            result.append(ski[x]);
             x = x - 3;
         }
-        System.out.println(n.toString().replace("[", "").replace("]", "").replace(",", "").replace(" ", ""));
+        System.out.println(result);
     }
 }
