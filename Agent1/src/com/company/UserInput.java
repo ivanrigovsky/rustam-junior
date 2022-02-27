@@ -24,13 +24,16 @@ public class UserInput {
             System.out.println("Введите номер ski-pass");
             Scanner str = new Scanner(System.in);
             String result = str.nextLine();
-            result=result.toUpperCase();
-            //Pattern p = Pattern.compile("[A-Z0-9АВСЕНКМОРТХУ],+");
-            //Matcher m = p.matcher(result);
-            //this.v = m.matches();
+            result = result.toUpperCase();
+            result = result.trim(); //delete spacess
+            Pattern p = Pattern.compile("[A-Z0-9АВСЕНКМОРТХУ]+");
+            Matcher m = p.matcher(result);
+            if (!m.matches()) {
+                System.out.println("Некорректные символы");
+                return ;
+            }
 
-            char[] ski = result.toCharArray();
-            this.ski=ski;
+            this.ski= result.toCharArray();
             z++;
 
         } while (ski.length!=16 || ski[0]!='E'); //  || v!=true
