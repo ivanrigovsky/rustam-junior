@@ -9,15 +9,15 @@ import java.util.regex.Pattern;
 public class UserInput {
     char[] ski;
     int z;
-    //boolean v;
 
-    private static  String[] english = {"A","B","C","E","H","K","M","O","P","T","X","Y"};
+    private static String[] english = {"A","B","C","E","H","K","M","O","P","T","X","Y"};
 
-    private static String [] russian = {"А","В","С","Е","Н","К","М","О","Р","Т","Х","У"};
+    private static String[] russian = {"А","В","С","Е","Н","К","М","О","Р","Т","Х","У"};
 
     public void skipass() {
+        UserInput user = new UserInput();
+        boolean symbol;
         do {
-            this.z=z;
             if (z>0) {
                 System.out.println("Некорректный номер ski-pass");
             }
@@ -25,21 +25,18 @@ public class UserInput {
             Scanner str = new Scanner(System.in);
             String result = str.nextLine();
             result = result.toUpperCase();
-            result = result.trim(); //delete spacess
+            result = result.trim();
             Pattern p = Pattern.compile("[A-Z0-9АВСЕНКМОРТХУ]+");
             Matcher m = p.matcher(result);
-            if (!m.matches()) {
-                System.out.println("Некорректные символы");
-                return ;
-            }
+            symbol = m.matches();
 
             this.ski= result.toCharArray();
             z++;
 
-        } while (ski.length!=16 || ski[0]!='E'); //  || v!=true
+        } while (ski.length!=16 || ski[0]!='E' || symbol!=true);
 
-        int x = 14;
         StringBuffer result = new StringBuffer();
+        int x = 14;
 
         while (x > 7) {
             result.append(ski[x]);
@@ -47,6 +44,13 @@ public class UserInput {
             result.append(ski[x]);
             x = x - 3;
         }
+
+        user.fromRusToEng(result);
+
+        System.out.println(result);
+    }
+
+    public void fromRusToEng (StringBuffer result) {
         for(int i=0;i<result.length();i++) {
             for(int j=0; j<english.length;j++) {
                 if(Character.toString(result.charAt(i)).equals(russian[j])) {
@@ -54,7 +58,5 @@ public class UserInput {
                 }
             }
         }
-
-        System.out.println(result);
     }
 }
