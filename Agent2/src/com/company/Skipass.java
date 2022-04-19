@@ -15,14 +15,16 @@ public class Skipass {
             String line = reader.readLine();
             while (line != null) {
 
-               this.ski = line.toCharArray();
-               StringBuffer result = new StringBuffer();
-               user.newFormat(result, ski);
+                this.ski = line.toCharArray();
+                StringBuffer result = new StringBuffer();
+                user.newFormat(result, ski);
 
                 System.out.println(result);
                 passes.append(result);
                 passes.append(System.getProperty("line.separator"));
+
                 user.fileWriter(passes);
+
                 line = reader.readLine();
             }
 
@@ -33,10 +35,10 @@ public class Skipass {
         }
     }
 
-    public void fileWriter(StringBuffer fff) {
+    public void fileWriter(StringBuffer passes) {
         try(FileWriter writer = new FileWriter("newSkipass.txt", false))
         {
-            writer.write(String.valueOf(fff));
+            writer.write(String.valueOf(passes));
             writer.flush();
         }
         catch(IOException ex){
