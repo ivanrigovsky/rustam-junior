@@ -1,9 +1,6 @@
-package com.example.demo.domain;
+package com.example.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity // Дает знать спрингу, что это сущность, которую нужно сохранять в базе данных
 public class Message {
@@ -15,12 +12,25 @@ public class Message {
     private String text;
     private String tag;
 
-    public Message(String text, String tag) {
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
+
+    public Message(String text, String tag, User user) {
+        this.author = user;
         this.text = text;
         this.tag = tag;
     }
 
+    public String getAuthorName() {
+        return author != null ? author.getUsername() : "<none>";
+    }
+
     public Message() { //Spring не сможет создать данный класс без пустого конструктора
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setText(String text) {
@@ -38,4 +48,13 @@ public class Message {
     public String getTag() {
         return tag;
     }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
 }
