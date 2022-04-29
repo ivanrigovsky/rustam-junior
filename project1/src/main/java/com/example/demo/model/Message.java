@@ -6,8 +6,7 @@ import javax.persistence.*;
 public class Message {
 
     @Id // Идентификатор позволяет различать две записи в одной таблице
-    @GeneratedValue(strategy = GenerationType.AUTO) // Говорим, чтобы фреймворк вместе с базой данных сами разобрали в каком виде и в каком порядке хранить данные
-    private Integer id;
+    private String id;
 
     private String text;
     private String tag;
@@ -15,6 +14,8 @@ public class Message {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
+
+    private String filename;
 
     public Message(String text, String tag, User user) {
         this.author = user;
@@ -29,7 +30,7 @@ public class Message {
     public Message() { //Spring не сможет создать данный класс без пустого конструктора
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -37,7 +38,7 @@ public class Message {
         this.text = text;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -57,4 +58,15 @@ public class Message {
         this.author = author;
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 }

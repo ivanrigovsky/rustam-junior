@@ -11,10 +11,9 @@ import java.util.Set;
 @Table(name = "user")
 public class User implements UserDetails {
 
-    @javax.persistence.Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Id
     private String username;
+
     private String password;
     private boolean active;
 
@@ -23,14 +22,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING) // Храним Enum в виде строки
     private Set<Role> roles;
 
-
-    public Long getId() {
-        return id;
+    public boolean isAdmin() {
+        return roles.contains(Role.ADMIN);
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;

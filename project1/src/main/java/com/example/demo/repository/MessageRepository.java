@@ -8,4 +8,5 @@ import java.util.List;
 public interface MessageRepository extends MongoRepository<Message, Long> {
 
     List<Message> findByTag(String tag);
+    List<Message> findByTagLike(String tag);
 }
