@@ -14,8 +14,13 @@ public class User implements UserDetails {
     @Id
     private String username;
 
+    private String id;
+
     private String password;
     private boolean active;
+
+    private String email;
+    private String activationCode; // Для подтверждения, что пользователь, действительно, владеет этим email
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user-role", joinColumns = @JoinColumn(name = "user-id")) // Аннотация описывает, что данное поле будет храниться в отдельной таблице, для которой мы не описывали мэппинг
@@ -82,6 +87,22 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 }
 

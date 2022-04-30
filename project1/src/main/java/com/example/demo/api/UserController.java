@@ -27,8 +27,9 @@ public class UserController {
         return "userList";
     }
 
-    @GetMapping("{user}")
-    public String userEditForm(@PathVariable User user, Model model) {
+    @GetMapping("{username}")
+    public String userEditForm(@PathVariable String username, Model model) {
+        User user = userRepository.findByUsername(username);
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
         return "userEdit";
@@ -37,8 +38,10 @@ public class UserController {
     @PostMapping
     public String userSave(@RequestParam String username,
                            @RequestParam Map<String, String> form,
-                           @RequestParam("userId") User user) {
-        user.setUsername(username);
+                           @RequestParam String newUsername
+    ) {
+        User user = userRepository.findByUsername(username);
+        user.setUsername(newUsername);
         Set<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
                 .collect(Collectors.toSet());
