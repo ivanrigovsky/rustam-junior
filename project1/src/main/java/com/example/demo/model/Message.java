@@ -1,21 +1,37 @@
 package com.example.demo.model;
 
-import javax.persistence.*;
+import com.example.demo.model.util.MessageHelper;
+import org.hibernate.validator.constraints.Length;
 
-@Entity // Дает знать спрингу, что это сущность, которую нужно сохранять в базе данных
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity // Сущность, которую нужно сохранять в базе данных
 public class Message {
 
-    @Id // Идентификатор позволяет различать две записи в одной таблице
+    @Id // Идентификатор для различия записей в одной таблице
     private String id;
 
+    @NotBlank(message = "Please fill the message")
+    @Length(max=2048, message = "Message too long (more than 2kB")
     private String text;
+    @Length(max=255, message = "Message too long (more than 255")
     private String tag;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER) // Одному пользователю соответствует множество сообщений
     private User author;
 
     private String filename;
+
+   /* @ManyToMany
+    @JoinTable(
+            name = "message_likes",
+            joinColumns = { @JoinColumn(name = "message_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id")}
+    )
+    private Set<User> likes = new HashSet<>();*/
 
     public Message(String text, String tag, User user) {
         this.author = user;
@@ -24,10 +40,10 @@ public class Message {
     }
 
     public String getAuthorName() {
-        return author != null ? author.getUsername() : "<none>";
+        return MessageHelper.getAuthorName(author);
     }
 
-    public Message() { //Spring не сможет создать данный класс без пустого конструктора
+    public Message() {
     }
 
     public void setId(String id) {
@@ -69,4 +85,12 @@ public class Message {
     public void setTag(String tag) {
         this.tag = tag;
     }
+
+    /*public Set<User> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<User> likes) {
+        this.likes = likes;
+    }*/
 }
